@@ -1,0 +1,77 @@
+<script type="text/javascript">
+
+	// 假全图模拟-平滑梯度分析
+	var testCount = 1000000;
+	var countSum = 0;
+	for (var i = 0; i < testCount; i++) {
+
+		var count = 0;
+		var SSRCount = 0;
+		var baodiCount = 0;
+		while (true) {
+			count++;
+			baodiCount++;
+			if (count == 450) {
+				SSRCount++;
+				break;
+			} else if (baodiCount == 60 || gotIt(1.25)) {
+				SSRCount++;
+				baodiCount = 0;
+				if (SSRCount > 1 && gotCurrentShikigami(count)) {
+					break;
+				}
+			}
+		}
+		countSum += count;
+	}
+
+	// 输出结果
+	console.log("金票平均：" + countSum/testCount);
+
+	// 概率梯度（平滑版）
+	function gotCurrentShikigami(count) {
+		if (count <= 60) {
+			return gotIt(10);
+		} else if (count <= 120) {
+			return gotIt(20);
+		} else if (count <= 180) {
+			return gotIt(30);
+		} else if (count <= 240) {
+			return gotIt(40);
+		} else if (count <= 300) {
+			return gotIt(50);
+		} else if (count <= 360) {
+			return gotIt(60);
+		} else if (count <= 420) {
+			return gotIt(70);
+		} else if (count <= 450) {
+			return gotIt(80);
+		}
+	}
+
+	// 输出随机数的函数
+	function randomNum(minNum,maxNum) { 
+		switch(arguments.length){ 
+			case 1: 
+				return parseInt(Math.random()*minNum+1,10); 
+			break; 
+			case 2: 
+				return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
+			break; 
+			default: 
+				return 0; 
+			break; 
+		}
+	}
+
+	// 根据概率随机出结果的函数
+	function gotIt(probability) {
+		var proNum = probability * 1000;
+		var randdomNum = randomNum(1, 100000);
+		if (randdomNum <= proNum) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+</script>
